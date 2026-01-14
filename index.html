@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hanzala Technical Institute | ২০২৬</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* লেআউট সেটআপ */
+        .page-content {
+            padding: 20px 5%;
+            min-height: 80vh;
+            display: flex; 
+            gap: 30px;
+            margin-top: 10px;
+            align-items: flex-start;
+        }
+
+        .main-body {
+            flex: 3;
+        }
+
+        /* ব্রেকিং নিউজ টিঙ্কার স্টাইল */
+        .news-ticker-container {
+            width: 90%;
+            margin: 20px auto;
+            background: #fff;
+            border: 1px solid #1abc9c;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .news-label {
+            background: #1abc9c;
+            color: white;
+            padding: 10px 25px;
+            font-weight: bold;
+            white-space: nowrap;
+            z-index: 2;
+        }
+        .ticker-content {
+            flex: 1;
+            overflow: hidden;
+        }
+        .ticker-text {
+            display: inline-block;
+            white-space: nowrap;
+            padding-left: 100%;
+            animation: ticker-move 20s linear infinite;
+            font-weight: 500;
+        }
+        .ticker-text a {
+            text-decoration: none;
+            color: #007a2f;
+        }
+        .ticker-text span {
+            background: #ff0000;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-right: 10px;
+        }
+        @keyframes ticker-move {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        .ticker-content:hover .ticker-text { animation-play-state: paused; }
+
+        /* সাইডবার ডিজাইন */
+        .sidebar {
+            flex: 1;
+            position: sticky;
+            top: 130px;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #eee;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .sidebar h3 {
+            color: green;
+            font-size: 20px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+        .sidebar-links { list-style: none; padding: 0; }
+        .sidebar-links li { margin: 15px 0; }
+        .sidebar-links a {
+            text-decoration: none; color: #444; font-weight: bold;
+            display: flex; align-items: center; gap: 10px; transition: 0.3s;
+        }
+        .sidebar-links a:hover { color: #1abc9c; transform: translateX(5px); }
+
+        /* ব্যানার ও কন্টেন্ট স্টাইল */
+        .banner img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            margin-top: 120px;
+        }
+        .motivate-wrapper { width: 100%; padding: 20px 0; text-align: center; }
+        .motivate-name {
+            font-size: clamp(24px, 5vw, 36px);
+            font-weight: 900; color: #007a2f;
+            animation: glowPulse 2s infinite alternate; 
+        }
+        .motivate-home-page { font-size: 16px; color: #333; line-height: 1.6; margin-bottom: 30px; }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 25px;
+        }
+        .info-box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid #ddd;
+            box-shadow: 4px 4px 10px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: 0.3s;
+        }
+        .info-box:hover { transform: translateY(-5px); }
+        .btn {
+            background: #1abc9c; color: white; padding: 10px 20px;
+            text-decoration: none; border-radius: 8px; display: inline-block;
+            margin-top: 15px; font-weight: bold; box-shadow: 2px 2px 4px #015338;
+        }
+        h2 { padding-bottom: 10px; font-size: 20px; color: green; }
+        .paragraph { border: 1px solid #f0f0f0; padding: 10px; border-radius: 5px; background-color: #fafafa; }
+
+        @media (max-width: 650px) {
+            .page-content { flex-direction: column; }
+            .sidebar { position: static; width: 100%; order: 2; }
+        }
+        @keyframes glowPulse { from { transform: scale(1.1); } to { transform: scale(1.02); } }
+    </style>
+</head>
+<body>
+
+    <div class="banner">
+        <img src="https://images.pexels.com/photos/256417/pexels-photo-256417.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Campus">
+    </div>
+
+    <div class="news-ticker-container">
+        <div class="news-label"><i class="fas fa-bullhorn"></i> নতুন নোটিশ</div>
+        <div class="ticker-content">
+            <div class="ticker-text" id="latest-news-ticker">
+                <span>NEW</span> <a href="/html/notice/notice70.pdf">সর্বশেষ নোটিশ: প্রতিষ্ঠানের প্রিন্সিপালের স্বাক্ষর সংক্রান্ত বিজ্ঞপ্তি প্রকাশিত হয়েছে।</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-content">
+        <div class="main-body">
+            <div class="motivate-wrapper">
+                <h1 class="motivate-name">হানজালা টেকনিক্যাল ইন্সটিটিউট</h1>
+                <p class="motivate-home-page">
+                    আমাদের দায় ও কর্তব্য হলো শিক্ষার্থীদের উত্তম শিক্ষা ও প্রশিক্ষণ দান, দেশকে সুনাগরিক উপহার দেওয়া এবং পরিবারকে গর্বিত ও দায়বদ্ধ ছেলে গড়ে তোলা। এই দেশ আমার, এই দেশকে সবার থেকে এগিয়ে রাখা দায় ও কর্তব্য আমার—আমি বাধ্য।
+                </p>
+            </div>
+
+            <div class="main-container">
+                <div class="info-box">
+                    <h2>ভর্তি কার্যক্রম</h2>
+                    <p class="paragraph">২০২৬ শিক্ষাবর্ষে ডিজিটাল পদ্ধতিতে ভর্তি চলছে। আসন সংখ্যা সীমিত।</p>
+                    <a href="#" class="btn">আবেদন ফরম</a>
+                </div>
+                <div class="info-box">
+                    <h2>অনলাইন ক্লাস</h2>
+                    <p class="paragraph">ঘরে বসেই অভিজ্ঞ শিক্ষকদের সাথে সরাসরি ভিডিও ক্লাসে অংশ নিন।</p>
+                    <a href="#" class="btn">ক্লাসে যোগ দিন</a>
+                </div>
+                <div class="info-box">
+                    <h2>উপহার কোর্স</h2>
+                    <p class="paragraph">আমাদের শিক্ষার্থীদের অভাবনীয় সাফল্য এবং বোর্ড পরীক্ষার ফলাফল দেখুন।</p>
+                    <a href="#" class="btn">বিস্তারিত দেখুন</a>
+                </div>
+                <div class="info-box">
+                    <h2>অনুষ্ঠান ও প্রতিযোগিতা</h2>
+                    <p class="paragraph">আমাদের শিক্ষার্থীদের বিভিন্ন সাংস্কৃতিক ও প্রযুক্তিগত প্রতিযোগিতার খবর।</p>
+                    <a href="#" class="btn">বিস্তারিত দেখুন</a>
+                </div>
+                <div class="info-box">
+                    <h2>অনলাইন সার্ভিস</h2>
+                    <p class="paragraph">শিক্ষার্থী ও দেশবাসীকে দ্রুত সহযোগিতা পৌঁছানোই আমাদের লক্ষ্য।</p>
+                    <a href="#" class="btn">বিস্তারিত দেখুন</a>
+                </div>
+                <div class="info-box">
+                    <h2>গবেষণা ও উদ্যোক্তা</h2>
+                    <p class="paragraph">নতুন কিছু করা এবং দক্ষতা বৃদ্ধির লক্ষ্যে আমাদের বিশেষ শাখা।</p>
+                    <a href="/html/guidlines53.html" class="btn">বিস্তারিত দেখুন</a>
+                </div>
+                <div class="info-box">
+                    <h2>স্বল্প মেয়াদি কোর্স</h2>
+                    <p class="paragraph">দ্রুত কর্মসংস্থানের লক্ষ্যে আমাদের বিশেষ শর্ট কোর্সসমূহ।</p>
+                    <a href="#" class="btn">বিস্তারিত দেখুন</a>
+                </div>
+            </div>
+        </div>
+
+        <aside class="sidebar">
+            <h3>গুরুত্বপূর্ণ তথ্য</h3>
+            <ul class="sidebar-links">
+                <li><a href="#"><i class="fas fa-bell"></i> সর্বশেষ নোটিশ</a></li>
+                <li><a href="#"><i class="fas fa-calendar-alt"></i> পরীক্ষার রুটিন</a></li>
+                <li><a href="#"><i class="fas fa-download"></i> সিলেবাস ডাউনলোড</a></li>
+                <li><a href="#"><i class="fas fa-user-graduate"></i> স্কলারশিপ তথ্য</a></li>
+                <li><a href="#"><i class="fas fa-headset"></i> হেল্পলাইন</a></li>
+            </ul>
+            <h3 style="margin-top: 30px;">যোগাযোগ</h3>
+            <p style="font-size: 14px; color: #666;">
+                <i class="fas fa-map-marker-alt"></i> ঢাকা, বাংলাদেশ<br>
+                <i class="fas fa-phone"></i> +৮৮০ ১XXX-XXXXXX
+            </p>
+        </aside>
+    </div>
+
+    <script src="header_footer.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // ৯ শব্দের বেশি হলে ছোট করার লজিক
+            const textElements = document.querySelectorAll('.motivate-home-page, .paragraph');
+            textElements.forEach(element => {
+                let originalText = element.innerText.trim();
+                let words = originalText.split(/\s+/);
+                if (words.length > 9) {
+                    element.innerText = words.slice(0, 9).join(' ') + '...';
+                    element.setAttribute('title', originalText);
+                    element.style.cursor = 'default'; 
+                }
+            });
+        });
+    </script>
+</body>
+</html>
