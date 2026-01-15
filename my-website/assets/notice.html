@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>নোটিশ বোর্ড | Hanzala Technical Institute</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* --- ১. মূল লেআউট ও হেডার/ফুটার স্টাইল (আগের পেজের সাথে মিল রেখে) --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            background: #f4f7f6; 
+            background-image: radial-gradient(#bcbcbc 0.5px, transparent 1px); 
+            background-size: 20px 20px;
+            color: #333; 
+        }
+
+        .fixed-top-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            z-index: 5000;
+            background: white;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+
+        header {
+            background: rgb(32, 32, 32);
+            color: white;
+            padding: 0 5%;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo a { color: yellow; text-decoration: none; font-weight: bold; font-size: 20px; }
+
+        .search-container { position: relative; flex-grow: 0.4; margin: 0 20px; }
+        .search-bar input {
+            width: 100%; padding: 10px 20px; border-radius: 25px;
+            border: 1px solid rgb(0, 145, 84); background: rgba(255,255,255,0.1);
+            color: white; outline: none;
+        }
+        #search-results {
+            position: absolute; top: 55px; left: 0; width: 100%;
+            background: white; border-radius: 8px; max-height: 300px;
+            overflow-y: auto; display: none; box-shadow: 0 5px 20px rgba(0,0,0,0.3); z-index: 6000;
+        }
+        .search-item { padding: 12px 20px; border-bottom: 1px solid #eee; text-decoration: none; color: #333; display: block; }
+
+        nav {
+            background: black; height: 50px; overflow-x: auto;
+            white-space: nowrap; scrollbar-width: none;
+        }
+        nav::-webkit-scrollbar { display: none; }
+        .nav-list { display: inline-flex; list-style: none; padding: 0 20px; }
+        .nav-link { display: block; color: white; padding: 0 20px; line-height: 50px; text-decoration: none; font-size: 15px; font-weight: 600; }
+
+        .dropdown {
+            list-style: none; position: fixed; background: white;
+            min-width: 200px; box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            display: none; z-index: 9999; border-top: 3px solid #1abc9c;
+        }
+        .dropdown li a { padding: 12px 20px; display: block; color: #444; text-decoration: none; border-bottom: 1px solid #f1f1f1; }
+
+        /* --- ২. নোটিশ বোর্ড কন্টেন্ট স্টাইল --- */
+        .page-content { margin-top: 140px; padding: 20px 5%; min-height: 80vh; }
+
+        .container {
+            width: 100%; max-width: 1000px; margin: 0 auto;
+            background-color: #fff; padding: 30px; border-radius: 15px;
+            position: relative; overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* এনিমেটেড বর্ডার */
+        .container::before {
+            content: ''; position: absolute; top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: conic-gradient(transparent, #1abc9c, #3498db, transparent 30%);
+            animation: rotate-border 4s linear infinite; z-index: 0;
+        }
+        .container::after {
+            content: ''; position: absolute; inset: 4px;
+            background: white; border-radius: 12px; z-index: 0;
+        }
+        .content-inner { position: relative; z-index: 1; }
+
+        @keyframes rotate-border { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        
+        .controls { display: flex; gap: 10px; margin-bottom: 25px; }
+        select { flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; }
+
+        .notice-item { 
+            background: #fff; padding: 18px; margin-bottom: 12px;
+            border-radius: 12px; display: flex; align-items: center;
+            justify-content: space-between; border: 1px solid #eee; transition: 0.3s;
+        }
+        .notice-item:hover { border-color: #1abc9c; transform: translateY(-2px); }
+
+        .notice-meta { font-size: 12px; color: #70757a; margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+        .notice-title { font-size: 16px; font-weight: 600; color: #2c3e50; cursor: pointer; transition: 0.2s; }
+        .notice-title:hover { color: #1abc9c; text-decoration: underline; }
+        
+        .dot { height: 10px; width: 10px; border-radius: 50%; display: inline-block; }
+        .dot-urgent { background: #d93025; }
+        .dot-exam { background: #f9ab00; }
+        .dot-result { background: #1e8e3e; }
+        .dot-admission { background: #9c27b0; }
+
+        .btn-dl { 
+            background: #f8f9fa; color: #1abc9c; width: 45px; height: 45px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            border: 1px solid #eee; font-size: 18px; transition: 0.3s; text-decoration: none;
+        }
+        .btn-dl:hover { background: #1abc9c; color: #fff; }
+
+        .pagination { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 30px; }
+        .page-btn { background: none; border: none; color: #1abc9c; cursor: pointer; font-size: 30px; }
+        .page-btn:disabled { color: #ccc; }
+
+        /* --- ৩. ফুটার স্টাইল --- */
+        footer { background: #111; color: #ccc; padding: 40px 5% 20px; margin-top: 50px; }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
+        .footer-section h3 { color: yellow; margin-bottom: 20px; }
+        .footer-section a { color: #aaa; text-decoration: none; display: block; margin-bottom: 10px; }
+        .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid #222; margin-top: 30px; }
+    </style>
+</head>
+<body>
+
+    <div class="fixed-top-container">
+        <header>
+            <div class="logo"><a href="/index.html">HTI | ২০২৬</a></div>
+            <div class="search-container">
+                <div class="search-bar"><input type="text" id="main-search" placeholder="নোটিশ বা তথ্য খুঁজুন..."></div>
+                <div id="search-results"></div>
+            </div>
+            <div class="profile"><i class="fas fa-user-circle fa-2x" style="color:#1abc9c"></i></div>
+        </header>
+        <nav id="navbar"><ul class="nav-list" id="nav-list"></ul></nav>
+    </div>
+
+    <div class="page-content">
+        <div class="container">
+            <div class="content-inner">
+                <h2 style="text-align:center; margin-bottom:30px; color:#2c3e50; border-bottom: 2px solid #1abc9c; display:inline-block; padding-bottom:5px;">নোটিশ বোর্ড</h2>
+                
+                <div class="controls">
+                    <select id="filterType" onchange="resetAndRender()">
+                        <option value="all">সকল নোটিশ</option>
+                        <option value="admission">ভর্তি সংক্রান্ত</option> 
+                        <option value="exam">পরীক্ষা সংক্রান্ত</option>
+                        <option value="result">ফলাফল</option>
+                        <option value="urgent">জরুরি নোটিশ</option>
+                    </select>
+                    <select id="perPage" onchange="resetAndRender()">
+                        <option value="10">১০টি করে</option>
+                        <option value="5">৫টি</option>
+                        <option value="all">সবগুলো</option>
+                    </select>
+                </div>
+
+                <div id="noticeWrapper"></div>
+
+                <div class="pagination">
+                    <button class="page-btn" id="prevBtn" onclick="changePage(-1)">&#8249;</button>
+                    <span id="pageText">১ / ১</span>
+                    <button class="page-btn" id="nextBtn" onclick="changePage(1)">&#8250;</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>HTI সম্পর্কে</h3>
+                <p>হঞ্জালা টেকনিক্যাল ইনস্টিটিউট ২০২৬ সাল থেকে কারিগরি শিক্ষায় নতুন দিগন্ত উন্মোচন করছে।</p>
+            </div>
+            <div class="footer-section">
+                <h3>দ্রুত লিঙ্ক</h3>
+                <a href="/index.html">হোম পেজ</a>
+                <a href="/html/notice10.html">নোটিশ বোর্ড</a>
+            </div>
+            <div class="footer-section">
+                <h3>যোগাযোগ</h3>
+                <p><i class="fas fa-phone"></i> হেল্পলাইন: +৮৮০ ১xxx xxx xxx</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; ২০২৬ হঞ্জালা টেকনিক্যাল ইনস্টিটিউট | সর্বস্বত্ব সংরক্ষিত</p>
+        </div>
+    </footer>
+
+    <script>
+        /* --- মেনু ডেটাবেস (আগের পেজ থেকে নেওয়া) --- */
+        const fileLinks = {
+            "Short Course Admission" : "/html/shourts_course_admission01.html",
+            "Private Admission" : "/html/private_admission02.html",
+            "Fee Payment" : "/html/fee_payment03.html",
+            "Admission Guidlines" : "/html/admission_guidlines04.html",
+            "Notice": "notice.html"
+            // ... অন্যান্য লিঙ্কগুলো এখানে থাকবে
+        };
+
+        const menuData = [
+            { name: "Home", link: "/index.html" },
+            { name: "Admission", sub: ["Short Course Admission", "Private Admission", "Fee Payment", "Admission Guidlines"] },
+            { name: "Calculation", sub: ["Basic Calculator", "Age Calculator"] },
+            { name: "Notice", link: "/html/notice10.html" },
+            { name: "Course", sub: ["Shourt Course", "Long Course"] },
+            { name: "Contact", sub: ["Office Location", "Social Media"] }
+        ];
+
+        /* --- মেনু এবং ড্রপডাউন জেনারেশন --- */
+        function initLayout() {
+            const navList = document.getElementById('nav-list');
+            menuData.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'nav-item';
+                if (item.sub) {
+                    let dHTML = `<ul class="dropdown">`;
+                    item.sub.forEach(s => { dHTML += `<li><a href="${fileLinks[s] || '#'}">${s}</a></li>`; });
+                    dHTML += `</ul>`;
+                    li.innerHTML = `<a class="nav-link" style="cursor:pointer">${item.name} <i class="fas fa-chevron-down" style="font-size:10px"></i></a>${dHTML}`;
+                } else {
+                    li.innerHTML = `<a href="${item.link}" class="nav-link">${item.name}</a>`;
+                }
+                navList.appendChild(li);
+            });
+
+            // ড্রপডাউন পজিশনিং
+            document.querySelectorAll('.nav-item').forEach(li => {
+                const drop = li.querySelector('.dropdown');
+                if(drop) {
+                    li.addEventListener('mouseenter', () => {
+                        const rect = li.getBoundingClientRect();
+                        drop.style.display = 'block';
+                        drop.style.left = rect.left + 'px';
+                        drop.style.top = rect.bottom + 'px';
+                    });
+                    li.addEventListener('mouseleave', () => drop.style.display = 'none');
+                }
+            });
+        }
+
+        /* --- নোটিশ বোর্ড লজিক --- */
+        const noticesData = [
+            { title: "জানুয়ারী-জুন ২০২৬ সেসনে কম্পিউটার ভর্তি বিজ্ঞপ্তি", date: "১২ জানুয়ারি ২০২৬", type: "admission", fileName: "/notice/admission.pdf" },
+            { title: "জরুরি নোটিশ: শীতকালীন ছুটি সংক্রান্ত", date: "১০ জানুয়ারি ২০২৬", type: "urgent", fileName: "holiday.pdf" },
+            { title: "সেমিস্টার ফাইনাল পরীক্ষার রুটিন ২০২৬", date: "০৫ জানুয়ারি ২০২৬", type: "exam", fileName: "routine.pdf" },
+            { title: "কারিগরী বোর্ড পরীক্ষার ফলাফল প্রকাশ", date: "০১ জানুয়ারি ২০২৬", type: "result", fileName: "result.pdf" },
+            { title: "নতুন সেশনের ক্লাস শুরু সংক্রান্ত নোটিশ", date: "২৮ ডিসেম্বর ২০২৫", type: "urgent", fileName: "class_start.pdf" }
+        ];
+
+        let currentPage = 1;
+        let filteredNotices = [...noticesData];
+
+        function renderNotices() {
+            const perPageVal = document.getElementById('perPage').value;
+            const perPage = perPageVal === 'all' ? filteredNotices.length : parseInt(perPageVal);
+            const start = (currentPage - 1) * perPage;
+            const end = start + perPage;
+            const currentData = filteredNotices.slice(start, end);
+
+            const wrapper = document.getElementById('noticeWrapper');
+            wrapper.innerHTML = '';
+
+            currentData.forEach((n) => {
+                const item = document.createElement('div');
+                item.className = 'notice-item';
+                item.innerHTML = `
+                    <div class="notice-left">
+                        <div class="notice-meta"><span><span class="dot dot-${n.type}"></span> ${n.date}</span></div>
+                        <div class="notice-title" onclick="window.open('${n.fileName}', '_blank')">${n.title}</div>
+                    </div>
+                    <a href="${n.fileName}" download class="btn-dl"><i class="fas fa-file-pdf"></i></a>
+                `;
+                wrapper.appendChild(item);
+            });
+
+            const totalPages = Math.ceil(filteredNotices.length / perPage) || 1;
+            document.getElementById('pageText').innerText = `${currentPage} / ${totalPages}`;
+            document.getElementById('prevBtn').disabled = currentPage === 1;
+            document.getElementById('nextBtn').disabled = currentPage === totalPages || perPageVal === 'all';
+        }
+
+        function changePage(step) { currentPage += step; renderNotices(); window.scrollTo(0, 0); }
+        function resetAndRender() {
+            const type = document.getElementById('filterType').value;
+            filteredNotices = (type === 'all') ? noticesData : noticesData.filter(n => n.type === type);
+            currentPage = 1;
+            renderNotices();
+        }
+
+        // ইনিশিয়ালাইজেশন
+        window.onload = () => {
+            initLayout();
+            renderNotices();
+        };
+    </script>
+</body>
+</html>

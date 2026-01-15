@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hanzala Technical Institute | ২০২৬</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* --- Core Layout Styles --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: white; color: #333; line-height: 1.6; }
+
+        /* Fixed Navigation Header */
+        .fixed-top-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 5000;
+            background: white;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+
+        header {
+            background: rgb(32, 32, 32);
+            color: white;
+            padding: 0 5%;
+            height: 70px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo a { color: yellow; text-decoration: none; font-weight: bold; font-size: 20px; }
+
+        /* Search Bar */
+        .search-container { position: relative; flex-grow: 0.4; margin: 0 20px; }
+        .search-bar input {
+            width: 100%;
+            padding: 10px 20px;
+            border-radius: 25px;
+            border: 1px solid rgb(0, 145, 84);
+            background: rgba(255,255,255,0.1);
+            color: white;
+            outline: none;
+        }
+        #search-results {
+            position: absolute;
+            top: 55px;
+            left: 0;
+            width: 100%;
+            background: white;
+            border-radius: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            z-index: 6000;
+        }
+        .search-item { padding: 12px 20px; border-bottom: 1px solid #eee; text-decoration: none; color: #333; display: block; }
+
+        /* Nav Bar */
+        nav {
+            background: black;
+            height: 50px;
+            overflow-x: auto;
+            white-space: nowrap;
+            border-bottom: 2px solid #e0e0e0;
+            scrollbar-width: none;
+        }
+        nav::-webkit-scrollbar { display: none; }
+        .nav-list { display: inline-flex; list-style: none; padding: 0 20px; }
+        .nav-link { display: block; color: white; padding: 0 20px; line-height: 50px; text-decoration: none; font-size: 15px; font-weight: 600; cursor: pointer; }
+
+        /* Dropdown Menu */
+        .dropdown {
+            list-style: none;
+            position: fixed; 
+            background: white;
+            min-width: 200px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            display: none;
+            z-index: 9999;
+            border-top: 3px solid #1abc9c;
+            border-radius: 0 0 5px 5px;
+        }
+        .dropdown li a { padding: 12px 20px; display: block; color: #444; text-decoration: none; border-bottom: 1px solid #f1f1f1; }
+        .dropdown li a:hover { background: #f9f9f9; color: #1abc9c; }
+        .banner img { width: 100%; height: 350px; object-fit: cover; margin-top: 120px; }
+
+        /* Main Content Area */
+        .page-content {
+            padding: 20px 5%;
+            min-height: 80vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        .motivate-section { text-align: center; margin: 30px 0; }
+        .motivate-name { font-size: 30px; font-weight: bold; color: #d9534f; text-shadow: 1px 1px #eee; margin-bottom: 10px; }
+        .motivate-text { max-width: 100%; margin: 0 auto; color: #555; }
+
+        /* Info Grid */
+        .main-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 30px; margin-top: 30px; }
+        .info-box { background: white; padding: 25px; border-radius: 15px; border: 1px solid #eee; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; transition: transform 0.3s; }
+        .info-box:hover { transform: translateY(-5px); }
+        .info-box h2 { color: #2e7d32; font-size: 20px; margin-bottom: 15px; }
+        .paragraph { background: #fdfdfd; padding: 10px; border-radius: 5px; font-size: 14px; color: #666; margin-bottom: 15px; }
+
+        .btn {
+            background: #1abc9c;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 8px;
+            display: inline-block;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn:hover { background: #16a085; }
+        .news-box {
+            width: 100%;
+            margin-top: 20px;
+            padding: 20px;
+            font-family: "SolaimanLipi", Arial, sans-serif;
+            line-height: 1.8;
+            }
+            .news-box h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 15px;
+            }
+            .news-box p {
+            color: #333;
+            font-size: 16px;
+            text-align: justify;
+            }
+
+
+        /* Footer */
+        footer { background: #111; color: #ccc; padding: 40px 5% 20px; margin-top: 50px; }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
+        .footer-section h3 { color: yellow; margin-bottom: 20px; }
+        .footer-section a { color: #aaa; text-decoration: none; display: block; margin-bottom: 10px; transition: 0.3s; }
+        .footer-section a:hover { color: yellow; }
+        .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid #222; margin-top: 30px; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <div class="fixed-top-container">
+        <header>
+            <div class="logo"><a href="/index.html">Hanzala Technical Institute</a></div>
+            <div class="search-container">
+                <div class="search-bar"><input type="text" id="main-search" placeholder="পেজ বা তথ্য খুঁজুন..."></div>
+                <div id="search-results"></div>
+            </div>
+            <div class="profile"><i class="fas fa-user-circle fa-2x" style="color:#1abc9c"></i></div>
+        </header>
+        <nav id="navbar">
+            <ul class="nav-list" id="nav-list">
+                </ul>
+        </nav>
+    </div>
+    <div class="banner">
+            <img src="https://images.pexels.com/photos/256417/pexels-photo-256417.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Campus Banner">
+        </div>
+    <div class="page-content">
+        <div class="motivate-section">
+            <p class="motivate-name">হানজালা টেকনিক্যাল ইন্সটিটিউট</p>
+            <p class="motivate-text">আমাদের দায় ও কর্তব্য হলো শিক্ষার্থীদের উত্তম শিক্ষা ও প্রশিক্ষণ দান, দেশকে দক্ষ নাগরিক উপহার দেয়া এবং পরিবারকে দায়বদ্ধ সন্তান গড়ে তোলা। এই দেশ আমার, এই দেশকে সবার থেকে এগিয়ে রাখা আমার পবিত্র কর্তব্য।</p>
+        </div>
+
+        <div class="main-container">
+            <div class="info-box">
+                <h2>ভর্তি কার্যক্রম</h2>
+                <p class="paragraph">২০২৬ শিক্ষাবর্ষে ডিজিটাল পদ্ধতিতে ভর্তি চলছে। আসন সংখ্যা সীমিত।</p>
+                <a href="html/admission-guide.html" class="btn">আবেদন ফরম</a>
+            </div>
+            <div class="info-box">
+                <h2>অনলাইন ক্লাস</h2>
+                <p class="paragraph">ঘরে বসেই অভিজ্ঞ শিক্ষকদের সাথে সরাসরি ভিডিও ক্লাসে অংশ নিন।</p>
+                <a href="html/online-class.html" class="btn">ক্লাসে যোগ দিন</a>
+            </div>
+            <div class="info-box">
+                <h2>উপহার কোর্স</h2>
+                <p class="paragraph">আমাদের শিক্ষার্থীদের অভাবনীয় সাফল্য এবং বোর্ড পরীক্ষার ফলাফল দেখুন।</p>
+                <a href="html/result-board.html" class="btn">বিস্তারিত দেখুন</a>
+            </div>
+            <div class="info-box">
+                <h2>অনুষ্ঠান ও প্রতিযোগিতা</h2>
+                <p class="paragraph">বিভিন্ন ইভেন্ট এবং প্রতিযোগিতায় অংশগ্রহণের নিয়মাবলি।</p>
+                <a href="html/result-board.html" class="btn">বিস্তারিত দেখুন</a>
+            </div>
+            <div class="info-box">
+                <h2>অনলাইন সার্ভিস</h2>
+                <p class="paragraph">শিক্ষার্থী এবং দেশবাসীর জন্য দ্রুত ও কার্যকর অনলাইন সেবা প্রদান।</p>
+                <a href="html/result-board.html" class="btn">বিস্তারিত দেখুন</a>
+            </div>
+            <div class="info-box">
+                <h2>গবেষণা ও উদ্যোক্তা</h2>
+                <p class="paragraph">শিক্ষার্থী ও অভিভাবকদের সম্মিলিত প্রচেষ্টায় নতুন উদ্ভাবনী কাজ।</p>
+                <a href="html/result-board.html" class="btn">বিস্তারিত দেখুন</a>
+            </div>
+            <div class="info-box">
+                <h2>স্বল্প মেয়াদি কোর্স</h2>
+                <p class="paragraph">দক্ষতা বৃদ্ধির লক্ষে বিভিন্ন পেশাদার শর্ট কোর্স সমূহ।</p>
+                <a href="html/result-board.html" class="btn">বিস্তারিত দেখুন</a>
+            </div>
+        </div>
+        <div class="news-box">
+            <h2>বাংলাদেশের শিক্ষা ব্যবস্থা নিয়ে নতুন উদ্যোগ</h2>
+            <p>বাংলাদেশের শিক্ষা ব্যবস্থা ক্রমাগত পরিবর্তন ও উন্নয়নের পথে এগিয়ে যাচ্ছে। 
+            সরকার প্রাথমিক থেকে উচ্চশিক্ষা পর্যন্ত মানোন্নয়নের জন্য বিভিন্ন পদক্ষেপ গ্রহণ করেছে। 
+            সাম্প্রতিক সময়ে ডিজিটাল শিক্ষা কার্যক্রম, অনলাইন ক্লাস এবং কারিগরি শিক্ষার প্রসারে বিশেষ গুরুত্ব দেওয়া হচ্ছে। 
+            বিশেষজ্ঞরা মনে করেন, আধুনিক প্রযুক্তি ও দক্ষ শিক্ষক নিয়োগের মাধ্যমে শিক্ষার মান আরও বৃদ্ধি পাবে। 
+            তবে গ্রামীণ অঞ্চলে অবকাঠামো ও শিক্ষকের ঘাটতি এখনো বড় চ্যালেঞ্জ হিসেবে রয়ে গেছে।</p>
+            <p>শিক্ষা মন্ত্রণালয় জানিয়েছে, নতুন পাঠ্যক্রমে শিক্ষার্থীদের সৃজনশীলতা ও ব্যবহারিক দক্ষতা বৃদ্ধির ওপর জোর দেওয়া হয়েছে। 
+            পাশাপাশি, শিক্ষার্থীদের জন্য আধুনিক ল্যাবরেটরি, লাইব্রেরি এবং তথ্যপ্রযুক্তি সুবিধা নিশ্চিত করার পরিকল্পনা নেওয়া হয়েছে। 
+            শহরাঞ্চলে ইতোমধ্যে অনেক স্কুলে স্মার্ট ক্লাসরুম চালু হয়েছে, যেখানে মাল্টিমিডিয়া প্রজেক্টর ও ইন্টারনেট সুবিধা ব্যবহার করে পাঠদান করা হচ্ছে। 
+            এর ফলে শিক্ষার্থীরা শুধু বইয়ের মধ্যে সীমাবদ্ধ না থেকে বাস্তব অভিজ্ঞতার মাধ্যমে শেখার সুযোগ পাচ্ছে।</p>
+            <p>অন্যদিকে, উচ্চশিক্ষা খাতে গবেষণা কার্যক্রমকে উৎসাহিত করতে বিশ্ববিদ্যালয়গুলোতে বিশেষ তহবিল গঠন করা হয়েছে। 
+            আন্তর্জাতিক মানের গবেষণা ও উদ্ভাবনী কার্যক্রমে শিক্ষার্থীদের সম্পৃক্ত করার জন্য বিভিন্ন প্রকল্প হাতে নেওয়া হয়েছে। 
+            বিশেষজ্ঞরা বলছেন, এসব উদ্যোগ সফলভাবে বাস্তবায়িত হলে বাংলাদেশ বৈশ্বিক শিক্ষা অঙ্গনে আরও শক্তিশালী অবস্থান তৈরি করতে সক্ষম হবে।</p>
+            <p>তবে চ্যালেঞ্জও কম নয়। গ্রামীণ অঞ্চলে অনেক বিদ্যালয়ে পর্যাপ্ত শ্রেণিকক্ষ নেই, শিক্ষকের সংখ্যা সীমিত এবং প্রযুক্তি ব্যবহারের সুযোগও কম। 
+            এসব সমস্যা সমাধানে সরকার স্থানীয় প্রশাসন ও বেসরকারি প্রতিষ্ঠানগুলোর সঙ্গে সমন্বয় করে কাজ করছে। 
+            শিক্ষাবিদরা মনে করেন, শহর ও গ্রামের শিক্ষার বৈষম্য দূর করতে হলে দীর্ঘমেয়াদি পরিকল্পনা ও কার্যকর বাস্তবায়ন অপরিহার্য।</p>
+        </div>
+        <div class="main-container">
+            <div class="info-box">
+                <h2>গবেষণা ও উদ্যোক্তা</h2>
+                <p class="paragraph">শিক্ষার্থী ও অভিভাবকদের সম্মিলিত প্রচেষ্টায় নতুন উদ্ভাবনী কাজ।</p>
+                <a href="html/result-board.html" class="btn">বিস্তারিত দেখুন</a>
+            </div>
+        </div>
+        <div class="news-box">
+            <h2>রিপোর্ট: কম্পিউটার স্কিলের গুরুত্ব</h2>
+            <p><strong>ভূমিকা:</strong> আধুনিক যুগে কম্পিউটার স্কিল আর বিলাসিতা নয়, বরং অপরিহার্য দক্ষতা। শিক্ষা, চাকরি, ব্যবসা এবং দৈনন্দিন জীবনের প্রতিটি ক্ষেত্রে কম্পিউটার ব্যবহারের গুরুত্ব দিন দিন বাড়ছে।</p>
+            <p><strong>উদ্দেশ্য:</strong> এই রিপোর্টের উদ্দেশ্য হলো কম্পিউটার স্কিলের প্রয়োজনীয়তা, এর ব্যবহারিক দিক এবং বাংলাদেশে এর প্রভাব তুলে ধরা।</p>
+            <p><strong>শিক্ষা ক্ষেত্রে:</strong> অনলাইন ক্লাস, ই-বুক, গবেষণা ও প্রেজেন্টেশনে কম্পিউটার দক্ষতা অপরিহার্য হয়ে উঠেছে। শিক্ষার্থীরা দ্রুত তথ্য সংগ্রহ ও বিশ্লেষণ করতে পারে।</p>
+            <p><strong>চাকরি ও কর্মক্ষেত্রে:</strong> অফিস ব্যবস্থাপনা, ডেটা অ্যানালাইসিস, ইমেইল যোগাযোগ—সবকিছুই কম্পিউটার নির্ভর। দক্ষ কর্মীরা দ্রুত কাজ সম্পন্ন করতে পারে, যা উৎপাদনশীলতা বাড়ায়।</p>
+            <p><strong>ব্যবসা ও উদ্যোক্তা কার্যক্রমে:</strong> ই-কমার্স, ডিজিটাল মার্কেটিং ও অনলাইন পেমেন্টে কম্পিউটার স্কিল অপরিহার্য। উদ্যোক্তারা বাজার বিশ্লেষণ ও গ্রাহক ব্যবস্থাপনায় কম্পিউটার ব্যবহার করে সফলতা অর্জন করছে।</p>
+            <p><strong>দৈনন্দিন জীবনে:</strong> ব্যাংকিং, টিকিট বুকিং, বিল পরিশোধ—সবকিছুই এখন অনলাইনে সম্ভব। সামাজিক যোগাযোগ মাধ্যমের মাধ্যমে মানুষ সহজে যোগাযোগ রক্ষা করছে।</p>
+            <p><strong>চ্যালেঞ্জ:</strong> গ্রামীণ অঞ্চলে প্রযুক্তি ব্যবহারের সুযোগ সীমিত। অবকাঠামো ও প্রশিক্ষণের অভাব এখনো বড় সমস্যা হিসেবে রয়ে গেছে।</p>
+            <p><strong>উপসংহার:</strong> কম্পিউটার স্কিল আধুনিক সমাজে টিকে থাকার জন্য অপরিহার্য। এটি চাকরির সুযোগ বাড়ায়, উৎপাদনশীলতা উন্নত করে এবং ব্যক্তিগত ও সামাজিক উন্নয়নের পথ সুগম করে।</p>
+        </div>
+        <div class="main-container">
+            <div class="info-box">
+                <h2>কম্পিউটার স্কিলস</h2>
+                <p class="paragraph">বর্তমানে কম্পিউটারের আলাদা আলাদা বিভিন্ন সেক্টর রয়েছে</p>
+                <a href="html/result-board.html" class="btn">বিস্তারিত দেখুন</a>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>HTI সম্পর্কে</h3>
+                <p>হঞ্জালা টেকনিক্যাল ইনস্টিটিউট ২০২৬ সাল থেকে কারিগরি শিক্ষায় নতুন দিগন্ত উন্মোচন করছে।</p>
+            </div>
+            <div class="footer-section">
+                <h3>দ্রুত লিঙ্ক</h3>
+                <a href="/index.html">হোম পেজ</a>
+                <a href="/html/notice10.html">নোটিশ বোর্ড</a>
+                <a href="/html/guidlines53.html">নির্দেশিকা</a>
+            </div>
+            <div class="footer-section">
+                <h3>যোগাযোগ</h3>
+                <p><i class="fas fa-phone"></i> হেল্পলাইন: +৮৮০ ১xxx xxx xxx</p>
+                <p><i class="fas fa-envelope"></i> ইমেইল: info@hti.edu.bd</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; ২০২৬ হঞ্জালা টেকনিক্যাল ইনস্টিটিউট | সর্বস্বত্ব সংরক্ষিত</p>
+        </div>
+    </footer>
+
+    <script>
+        // ১. ডেটাবেস ও কনফিগারেশন
+        const fileLinks = {
+            "Short Course Admission" : "/html/shourts_course_admission01.html",
+            "Private Admission" : "/html/private_admission02.html",
+            "Fee Payment" : "/html/fee_payment03.html",
+            "Admission Guidlines" : "/html/admission_guidlines04.html",
+            "Number System and Complements" : "/html/number_system_conversion05.html",
+            "Basic Calculator" : "/html/basic_calculator06.html",
+            "Lenght Conversion" : "/html/lenght_calculator07.html",
+            "Weight Conversion" : "/html/weight_coversion08.html",
+            "Time Counter" : "/html/time_counter09.html",
+            "Age Calculator" : "/html/age_calculator.html",
+            "Shourt Course" : "/html/sourts_course11.html",
+            "Long Course" : "/html/long_course12.html",
+            "Dircting Manager" : "/html/directing_manager013.html",
+            "Trade Instructor" : "/html/trade_instructor014.html",
+            "Teacher" : "/html/teacher015.html",
+            "Assistent Teacher" : "/html/assistent016.html",
+            "Internt Teacher" : "/html/internt_teacher017.html",
+            "Course Final Result" : "/html/course_final_result018.html", 
+            "Board Result" : "/html/board_result019.html", 
+            "Test Exam Result" : "/html/test_exam_result020.html",
+            "Admission Result" : "/html/admission_result021.html",
+            "Scholarship Result" : "/html/scholarship_result022.html",
+            "Short Course Book" : "/html/short_course_book023.html",
+            "Long Course Book" : "/html/long_course_book024.html",
+            "Referance Book" : "/html/referance_book025.html",
+            "HTI Institute Writing Book" : "/html/hti_institute_writing_book026.html",
+            "Academic Gallery" : "/html/academic_gallery027.html",
+            "Cultural Gallery" : "/html/cultural_gallery028.html",
+            "Event Gallery" : "/html/event_gallery029.html",
+            "Student Project Gallery" : "/html/student_project_gallery030.html",
+            "Software Invention" : "/html/software_invention031.html",
+            "Resarch Paper" : "/html/resarch_paper032.html",
+            "Prototype Models" : "/html/prototype_models033.html",
+            "Office Location" : "/html/office_location034.html",
+            "Complaint" : "/html/complaint035.html",
+            "Social Media" : "/html/social_media036.html",
+            "Technology Blogs" : "/html/technology_blogs037.html",
+            "Education blogs" : "/html/education_blogs038.html",
+            "Career Guidance Blogs" : "/html/career_guidance_blogs039.html",
+            "Student Experience Blogs" : "/html/student_experience_blogs040.html",
+            "Upcoming Events" : "/html/upcoming_events041.html",
+            "Ongoing Events" : "/html/ongoing_events042.html",
+            "Past Events" : "/html/past_events043.html",
+            "Software Products" : "/html/software_products044.html",
+            "Hardware Products" : "/html/hardware_products045.html",
+            "Educational Meterials" : "/html/educational_meterials046.html",
+            "Merchandise" : "/html/merchandise047.html",
+            "Typing Games" : "/html/typing_games048.html",
+            "Educational Games" : "/html/educational_games049.html",
+            "Puzzle Games" : "/html/puzzle_games050.html",
+            "Programing Base Games" : "/html/programing_base_games051.html",
+            "Entertainment Games" : "/html/entertainment_games052.html"
+        };
+
+        const menuData = [
+            { name: "Home", link: "/index.html" },
+            { name: "Admission", sub: ["Short Course Admission", "Private Admission", "Fee Payment", "Admission Guidlines"] },
+            { name: "Calculation", sub: ["Number System and Complements", "Basic Calculator", "Lenght Conversion", "Weight Conversion", "Time Counter", "Age Calculator"] },
+            { name: "Notice", link: "assets/notice.html" },
+            { name: "Course", sub: ["Shourt Course", "Long Course"] },
+            { name: "Teachers", sub: ["Dircting Manager", "Trade Instructor", "Teacher", "Assistent Teacher", "Internt Teacher"] },
+            { name: "Result", sub: ["Course Final Result", "Board Result", "Test Exam Result", "Admission Result", "Scholarship Result"] },
+            { name: "Library", sub: ["Short Course Book", "Long Course Book", "Referance Book", "HTI Institute Writing Book"] },
+            { name: "Gallery", sub: ["Academic Gallery", "Cultural Gallery", "Event Gallery", "Student Project Gallery"] },
+            { name: "Invention", sub: ["Software Invention", "Resarch Paper", "Prototype Models"] },
+            { name: "Contact", sub: ["Office Location", "Complaint", "Social Media"] },
+            { name: "Blogs", sub: ["Technology Blogs", "Education blogs", "Career Guidance Blogs", "Student Experience Blogs"] },
+            { name: "Event", sub: ["Upcoming Events", "Ongoing Events", "Past Events"] },
+            { name: "Product", sub: ["Software Products", "Hardware Products", "Educational Meterials", "Merchandise"] },
+            { name: "Games", sub: ["Typing Games", "Educational Games", "Puzzle Games", "Programing Base Games", "Entertainment Games"] },
+            { name: "Guidlines", link: "/html/guidlines53.html"}
+        ];
+
+        // ২. মেনু জেনারেটর ফাংশন
+        function initializeHTICore() {
+            const navList = document.getElementById('nav-list');
+            const navbar = document.getElementById('navbar');
+            
+            menuData.forEach(item => {
+                const li = document.createElement('li');
+                li.className = 'nav-item';
+                if (item.sub) {
+                    let dHTML = `<ul class="dropdown">`;
+                    item.sub.forEach(s => {
+                        let fileName = fileLinks[s] || "/index.html"; 
+                        dHTML += `<li><a href="${fileName}">${s}</a></li>`;
+                    });
+                    dHTML += `</ul>`;
+                    li.innerHTML = `<a class="nav-link">${item.name} <i class="fas fa-chevron-down" style="font-size:10px"></i></a>${dHTML}`;
+                } else {
+                    li.innerHTML = `<a href="${item.link}" class="nav-link">${item.name}</a>`;
+                }
+                navList.appendChild(li);
+            });
+
+            // ৩. ড্রপডাউন পজিশনিং লজিক
+            document.querySelectorAll('.nav-item').forEach(li => {
+                const link = li.querySelector('.nav-link');
+                const drop = li.querySelector('.dropdown');
+                if(drop) {
+                    li.addEventListener('mouseenter', () => {
+                        const rect = link.getBoundingClientRect();
+                        drop.style.display = 'block';
+                        drop.style.top = rect.bottom + 'px';
+                        
+                        // স্ক্রিনের ডানে চলে গেলে বামে সরানো
+                        if (rect.left + drop.offsetWidth > window.innerWidth) {
+                            drop.style.left = 'auto';
+                            drop.style.right = (window.innerWidth - rect.right) + 'px';
+                        } else {
+                            drop.style.right = 'auto';
+                            drop.style.left = rect.left + 'px';
+                        }
+                    });
+                    li.addEventListener('mouseleave', () => drop.style.display = 'none');
+                }
+            });
+
+            // ৪. মাউস হুইল দিয়ে মেনু স্ক্রল
+            navbar.addEventListener('wheel', (e) => {
+                if (e.deltaY !== 0) {
+                    e.preventDefault();
+                    navbar.scrollLeft += e.deltaY;
+                }
+            });
+
+            // ৫. সার্চ লজিক
+            const searchInput = document.getElementById('main-search');
+            const resultsBox = document.getElementById('search-results');
+            let searchDb = [];
+            menuData.forEach(m => m.sub ? m.sub.forEach(s => searchDb.push({t:s, l:fileLinks[s]||'/index.html'})) : searchDb.push({t:m.name, l:m.link}));
+
+            searchInput.addEventListener('input', function() {
+                const val = this.value.toLowerCase().trim();
+                resultsBox.innerHTML = '';
+                if(val) {
+                    const matches = searchDb.filter(d => d.t.toLowerCase().includes(val));
+                    if(matches.length) {
+                        resultsBox.style.display = 'block';
+                        matches.forEach(m => {
+                            resultsBox.innerHTML += `<a href="${m.l}" class="search-item">${m.t}</a>`;
+                        });
+                    } else { resultsBox.style.display = 'none'; }
+                } else { resultsBox.style.display = 'none'; }
+            });
+        }
+
+        // পেজ লোড হলে ফাংশন রান করুন
+        window.addEventListener('DOMContentLoaded', initializeHTICore);
+    </script>
+</body>
+</html>
